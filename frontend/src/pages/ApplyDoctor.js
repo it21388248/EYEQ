@@ -12,7 +12,7 @@ const ApplyDoctor = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   //handle form
-    const handleFinish = async (values) => {
+  const handleFinish = async (values) => {
     try {
       dispatch(showLoading());
       const res = await axios.post(
@@ -37,9 +37,8 @@ const ApplyDoctor = () => {
       console.log(error);
       message.error("Somthing Went Wrrong ");
     }
-  }; 
+  };
 
- 
   return (
     <Layout>
       <h1 className="text-center">Apply Doctor</h1>
