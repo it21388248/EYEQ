@@ -11,7 +11,7 @@ export const userMenu = [
   },
   {
     name: "Eye Tests",
-    path: "/apply-doctor",
+    path: "/eyeTest",
     icon: "fa-solid fa-eye",
   },
 

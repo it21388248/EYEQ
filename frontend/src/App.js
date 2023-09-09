@@ -2,11 +2,10 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
-import { useSelector } from "react-redux"; // Correct import
+import { useSelector } from "react-redux";
 import Spinner from "./components/Spinner";
 import ProtectedRoute from "./components/ProtectedRoute";
 import PublicRoute from "./components/PublicRoute";
-import ApplyDoctor from "./pages/ApplyDoctor";
 import { Appointments } from "./functions/reservationFun/pages/Appointments";
 import Doctors from "./pages/admin/Doctors";
 import Prescription from "./functions/prescriptionFun/pages/Prescription";
@@ -14,7 +13,7 @@ import { Aform } from "./functions/reservationFun/pages/Aform";
 import { Payment } from "./functions/reservationFun/pages/Payment";
 
 function App() {
-  const { loading } = useSelector((state) => state.alerts); // Correct useSelector usage
+  const { loading } = useSelector((state) => state.alerts);
 
   return (
     <BrowserRouter>
@@ -66,15 +65,6 @@ function App() {
             element={
               <ProtectedRoute>
                 <Payment />
-              </ProtectedRoute>
-            }
-          />
-
-          <Route
-            path="/apply-doctor"
-            element={
-              <ProtectedRoute>
-                <ApplyDoctor />
               </ProtectedRoute>
             }
           />
