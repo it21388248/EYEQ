@@ -1,0 +1,4 @@
+input[type="text"]:focus ~ .input-text,
+input[type="date"]:focus ~ .input-text {
+  @apply text-lg text-black scale-75 translate-x-0 -translate-y-4 bg-white;
+}
