@@ -27,4 +27,11 @@ router.post("/getUserData", authMiddleware, authController);
 
 router.post("/apply-doctor", authMiddleware, applyDoctorController);
 
+//Notifiaction  Doctor || POST
+router.post(
+  "/get-all-notification",
+  authMiddleware,
+  getAllNotificationController
+);
+
 module.exports = router;

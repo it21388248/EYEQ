@@ -11,6 +11,7 @@ import Doctors from "./pages/admin/Doctors";
 import Prescription from "./functions/prescriptionFun/pages/Prescription";
 import { Aform } from "./functions/reservationFun/pages/Aform";
 import { Payment } from "./functions/reservationFun/pages/Payment";
+import NotificationPage from "./pages/admin/NotificationPage";
 
 function App() {
   const { loading } = useSelector((state) => state.alerts);
@@ -65,6 +66,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <Payment />
+              </ProtectedRoute>
+            }
+          />
+            <Route
+            path="/notification"
+            element={
+              <ProtectedRoute>
+                <NotificationPage />
               </ProtectedRoute>
             }
           />
