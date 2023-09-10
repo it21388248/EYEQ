@@ -23,19 +23,22 @@ const ViewPrescription = ({ isOpen, closeModal, prescriptionData }) => {
 
     if (confirm) {
       axios
-        .delete("http://localhost:8000/prescriptionFun/delete/" + id)
+        .delete("/prescriptionFun/delete/" + id)
         .then((res) => {
           alert("Prescription has deleted sucessfully");
 
           //get updated list again after deletetion
-          axios
-            .get("http://localhost:8000/prescriptionFun/")
-            .then((res) => {
-              // setEmployees(res.data);
-            })
-            .catch((err) => {
-              alert(err.message);
-            });
+          // axios
+          //   .get("http://localhost:8000/prescriptionFun/")
+          //   .then((res) => {
+          //     // setEmployees(res.data);
+          //   })
+          //   .catch((err) => {
+          //     alert(err.message);
+          //   });
+
+          // Reload the page to display updated cards
+          window.location.reload();
         })
         .catch((err) => console.log(err));
     }

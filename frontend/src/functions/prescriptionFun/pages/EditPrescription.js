@@ -31,29 +31,30 @@ const EditPrescription = ({ isVisible, onClose, editableId }) => {
   useEffect(() => {
     function getPrescriptions() {
       axios
-        .get("http://localhost:8000/prescriptionFun/get/" + editableId)
+        .get(`/prescriptionFun/get/${editableId}`)
         .then((res) => {
-          console.log(res);
-          setfName(res.data.fName);
-          setlName(res.data.lName);
-          setContact(res.data.contact);
-          setBirthOfDate(res.data.birthOfDate);
-          setDoctorName(res.data.doctorName);
-          setHospitalName(res.data.hospitalName);
-          setPresDate(res.data.presDate);
-          setExpDate(res.data.expDate);
-          setLeftSpehere(res.data.leftSpehere);
-          setRightSpehere(res.data.rightSpehere);
-          setLeftCylinder(res.data.leftCylinder);
-          setRightCylinder(res.data.rightCylinder);
-          setLeftAxis(res.data.leftAxis);
-          setRightAxis(res.dat.rightAxis);
-          setLeftAdd(res.data.leftAdd);
-          setRightAdd(res.data.rightAdd);
-          setLeftPrism(res.data.leftPrism);
-          setRightPrism(res.data.rightPrism);
-          setPd(res.data.pd);
-          setBvd(res.data.bvd);
+          // console.log(res);
+          console.log(res.data.prescription.contact);
+          setfName(res.data.prescription.fName);
+          setlName(res.data.prescription.lName);
+          setContact(res.data.prescription.contact);
+          setBirthOfDate(res.data.prescription.birthOfDate);
+          setDoctorName(res.data.prescription.doctorName);
+          setHospitalName(res.data.prescription.hospitalName);
+          setPresDate(res.data.prescription.presDate);
+          setExpDate(res.data.prescription.expDate);
+          setLeftSpehere(res.data.prescription.leftSpehere);
+          setRightSpehere(res.data.prescription.rightSpehere);
+          setLeftCylinder(res.data.prescription.leftCylinder);
+          setRightCylinder(res.data.prescription.rightCylinder);
+          setLeftAxis(res.data.prescription.leftAxis);
+          setRightAxis(res.data.prescription.rightAxis); // Fixed typo here
+          setLeftAdd(res.data.prescription.leftAdd);
+          setRightAdd(res.data.prescription.rightAdd);
+          setLeftPrism(res.data.prescription.leftPrism);
+          setRightPrism(res.data.prescription.rightPrism);
+          setPd(res.data.prescription.pd);
+          setBvd(res.data.prescription.bvd);
 
           console.log(res.data);
         })
@@ -61,7 +62,48 @@ const EditPrescription = ({ isVisible, onClose, editableId }) => {
     }
 
     getPrescriptions();
+    console.log(editableId);
   }, [editableId]);
+
+  const handleUpdate = () => {
+    const updatedPrescription = {
+      fName,
+      lName,
+      contact,
+      birthOfDate,
+      doctorName,
+      hospitalName,
+      presDate,
+      expDate,
+      leftSpehere,
+      rightSpehere,
+      leftCylinder,
+      rightCylinder,
+      leftAxis,
+      rightAxis,
+      leftAdd,
+      rightAdd,
+      leftPrism,
+      rightPrism,
+      pd,
+      bvd,
+      additionalInfo,
+    };
+
+    axios
+      .put(`/prescriptionFun/update/${editableId}`, updatedPrescription)
+      .then((res) => {
+        // Handle successful update (e.g., show a success message)
+        alert("Prescription updated successfully");
+
+        // Reload the page to display updated cards
+        window.location.reload();
+      })
+      .catch((err) => {
+        // Handle error (e.g., show an error message)
+        alert("Error updating prescription", err);
+      });
+  };
 
   if (!isVisible) {
     return null;
@@ -152,6 +194,7 @@ const EditPrescription = ({ isVisible, onClose, editableId }) => {
                     </span>
                     <input
                       type="text"
+                      value={lName}
                       id="input2"
                       onChange={(e) => {
                         setlName(e.target.value);
@@ -178,6 +221,7 @@ const EditPrescription = ({ isVisible, onClose, editableId }) => {
                     <input
                       type="text"
                       id="input3"
+                      value={contact}
                       onChange={(e) => {
                         setContact(e.target.value);
                       }}
@@ -199,6 +243,7 @@ const EditPrescription = ({ isVisible, onClose, editableId }) => {
                     <input
                       type="date"
                       id="input4"
+                      value={birthOfDate}
                       onChange={(e) => {
                         setBirthOfDate(e.target.value);
                       }}
@@ -236,6 +281,7 @@ const EditPrescription = ({ isVisible, onClose, editableId }) => {
                     <input
                       type="text"
                       id="input5"
+                      value={doctorName}
                       onChange={(e) => {
                         setDoctorName(e.target.value);
                       }}
@@ -257,6 +303,7 @@ const EditPrescription = ({ isVisible, onClose, editableId }) => {
                     <input
                       type="text"
                       id="input6"
+                      value={hospitalName}
                       onChange={(e) => {
                         setHospitalName(e.target.value);
                       }}
@@ -294,6 +341,7 @@ const EditPrescription = ({ isVisible, onClose, editableId }) => {
                     <input
                       type="date"
                       id="input7"
+                      value={presDate}
                       onChange={(e) => {
                         setPresDate(e.target.value);
                       }}
@@ -315,6 +363,7 @@ const EditPrescription = ({ isVisible, onClose, editableId }) => {
                     <input
                       type="date"
                       id="input8"
+                      value={expDate}
                       onChange={(e) => {
                         setExpDate(e.target.value);
                       }}
@@ -364,6 +413,7 @@ const EditPrescription = ({ isVisible, onClose, editableId }) => {
                     >
                       <input
                         type="number"
+                        value={leftSpehere}
                         onChange={(e) => {
                           setLeftSpehere(e.target.value);
                         }}
@@ -385,6 +435,7 @@ const EditPrescription = ({ isVisible, onClose, editableId }) => {
                     >
                       <input
                         type="number"
+                        value={rightSpehere}
                         onChange={(e) => {
                           setRightSpehere(e.target.value);
                         }}
@@ -412,6 +463,7 @@ const EditPrescription = ({ isVisible, onClose, editableId }) => {
                     >
                       <input
                         type="number"
+                        value={leftCylinder}
                         onChange={(e) => {
                           setLeftCylinder(e.target.value);
                         }}
@@ -433,6 +485,7 @@ const EditPrescription = ({ isVisible, onClose, editableId }) => {
                     >
                       <input
                         type="number"
+                        value={rightCylinder}
                         onChange={(e) => {
                           setRightCylinder(e.target.value);
                         }}
@@ -460,6 +513,7 @@ const EditPrescription = ({ isVisible, onClose, editableId }) => {
                     >
                       <input
                         type="number"
+                        value={leftAxis}
                         onChange={(e) => {
                           setLeftAxis(e.target.value);
                         }}
@@ -481,6 +535,7 @@ const EditPrescription = ({ isVisible, onClose, editableId }) => {
                     >
                       <input
                         type="number"
+                        value={rightAxis}
                         onChange={(e) => {
                           setRightAxis(e.target.value);
                         }}
@@ -508,6 +563,7 @@ const EditPrescription = ({ isVisible, onClose, editableId }) => {
                     >
                       <input
                         type="number"
+                        value={leftAdd}
                         onChange={(e) => {
                           setLeftAdd(e.target.value);
                         }}
@@ -529,6 +585,7 @@ const EditPrescription = ({ isVisible, onClose, editableId }) => {
                     >
                       <input
                         type="number"
+                        value={rightAdd}
                         onChange={(e) => {
                           setRightAdd(e.target.value);
                         }}
@@ -556,6 +613,7 @@ const EditPrescription = ({ isVisible, onClose, editableId }) => {
                     >
                       <input
                         type="text"
+                        value={leftPrism}
                         onChange={(e) => {
                           setLeftPrism(e.target.value);
                         }}
@@ -577,6 +635,7 @@ const EditPrescription = ({ isVisible, onClose, editableId }) => {
                     >
                       <input
                         type="text"
+                        value={rightPrism}
                         onChange={(e) => {
                           setRightPrism(e.target.value);
                         }}
@@ -594,6 +653,7 @@ const EditPrescription = ({ isVisible, onClose, editableId }) => {
                       PD :
                       <input
                         type="text"
+                        value={pd}
                         onChange={(e) => {
                           setPd(e.target.value);
                         }}
@@ -605,6 +665,7 @@ const EditPrescription = ({ isVisible, onClose, editableId }) => {
                       BVD :
                       <input
                         type="text"
+                        value={bvd}
                         onChange={(e) => {
                           setBvd(e.target.value);
                         }}
@@ -619,6 +680,7 @@ const EditPrescription = ({ isVisible, onClose, editableId }) => {
                   </h3>
                   <textarea
                     className="h-8 h-20 bg-gray-100 border-2 border-gray"
+                    value={additionalInfo}
                     onChange={(e) => {
                       setAdditionalInfo(e.target.value);
                     }}
@@ -633,7 +695,7 @@ const EditPrescription = ({ isVisible, onClose, editableId }) => {
             style={{ marginRight: "5px", marginLeft: "5px" }}
           >
             <button
-              onClick={""}
+              onClick={handleUpdate}
               className="w-full px-3 py-2 my-2 text-sm text-white rounded-lg"
               style={{ backgroundColor: "#020248" }}
             >

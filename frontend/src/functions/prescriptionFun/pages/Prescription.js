@@ -12,7 +12,7 @@ export const Prescription = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const res = await axios.get("http://localhost:8000/prescriptionFun/");
+      const res = await axios.get("/prescriptionFun/");
       setCardData(res.data);
     };
     fetchData();
@@ -97,11 +97,12 @@ export const Prescription = () => {
     };
 
     axios
-      .post("http://localhost:5000/prescriptionFun/add", newPrescription)
+      .post("/prescriptionFun/add", newPrescription)
       .then(() => {
         alert("Prescription Added");
-        setfName("");
-        setlName("");
+
+        // Reload the page to display updated cards
+        window.location.reload();
       })
       .catch((err) => {
         alert(err);
@@ -115,30 +116,13 @@ export const Prescription = () => {
         crossorigin="anonymous"
       ></script> */}
 
-        <div
-          className="prescription-header"
-          style={{
-            height: "500px",
-            backgroundColor: "dodgerblue",
-            backgroundImage: 'url("../images/back2.jpg")',
-          }}
-        >
-          <h1
-            style={{
-              textAlign: "center",
-              paddingTop: "180px",
-              fontFamily: "Monaco",
-              fontWeight: "bold",
-              fontSize: "35px",
-            }}
-          >
-            Your Prescriptions
-          </h1>
+        <div className="prescription-header">
+          <h1 className="heading">Your Prescriptions</h1>
           <button
             onClick={() => {
               setShowModal(true);
             }}
-            className="px-2 py-1 font-bold text-blue-600 bg-white border-2 border-blue-500 cursor-pointer rounded-xl hover:text-blue-900 hover:bg-blue-100"
+            className="btn-Add "
           >
             Add New Prescription
           </button>
@@ -188,17 +172,6 @@ export const Prescription = () => {
         >
           <div>
             <img src={back2} style={{ height: "200px", width: "600px" }}></img>
-            {/* <h3
-            className="py-2 mx-2 text-2xl font-extrabold text-blue-500"
-            style={{
-              borderBottom: "3px solid #4287ff",
-              margineft: "10px",
-              marginRight: "5px",
-              fontWeight: "bold",
-            }}
-          >
-            Add a New Prescription
-          </h3> */}
           </div>
 
           <div

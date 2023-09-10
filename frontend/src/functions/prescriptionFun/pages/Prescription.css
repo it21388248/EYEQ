@@ -1,4 +1,30 @@
 input[type="text"]:focus ~ .input-text,
 input[type="date"]:focus ~ .input-text {
-  @apply text-lg text-black scale-75 translate-x-0 -translate-y-4 bg-white;
+  @apply text-lg text-black scale-75 translate-x-0 -translate-y-4 bg-white;
+}
+
+.prescription-header {
+  height: 200px;
+  background-color: rgb(1, 141, 215);
+  color: white;
+  position: relative;
+}
+
+.heading {
+  text-align: center;
+  padding-top: 100px;
+  font-family: monospace;
+  font-weight: bold;
+  font-size: 35px;
+}
+
+.btn-Add {
+  position: absolute;
+  right: 50px;
+  top: 220px;
+  background-color: rgb(8, 52, 139);
+  width: 300px;
+  border: 1px solid rgb(10, 10, 212);
+  padding: 6px;
+  border-radius: 5px;
 }
