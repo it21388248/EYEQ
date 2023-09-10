@@ -7,11 +7,12 @@ import Spinner from "./components/Spinner";
 import ProtectedRoute from "./components/ProtectedRoute";
 import PublicRoute from "./components/PublicRoute";
 import { Appointments } from "./functions/reservationFun/pages/Appointments";
-import Doctors from "./pages/admin/Doctors";
+import { Doctors } from "./pages/admin/Doctors";
 import Prescription from "./functions/prescriptionFun/pages/Prescription";
 import { Aform } from "./functions/reservationFun/pages/Aform";
 import { Payment } from "./functions/reservationFun/pages/Payment";
 import NotificationPage from "./pages/admin/NotificationPage";
+import DocView from "./pages/admin/DocView";
 
 function App() {
   const { loading } = useSelector((state) => state.alerts);
@@ -69,7 +70,7 @@ function App() {
               </ProtectedRoute>
             }
           />
-            <Route
+          <Route
             path="/notification"
             element={
               <ProtectedRoute>
@@ -82,15 +83,25 @@ function App() {
             path="/admin/doctors"
             element={
               <ProtectedRoute>
-                <Doctors />
+                <DocView />
               </ProtectedRoute>
             }
           />
+
           <Route
             path="/prescription"
             element={
               <ProtectedRoute>
                 <Prescription />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/AddDoc"
+            element={
+              <ProtectedRoute>
+                <Doctors />
               </ProtectedRoute>
             }
           />
