@@ -18,7 +18,6 @@
 }
 
 .detailContainer {
-  background-image: url("./eye2.png");
   display: flex;
   flex-direction: row;
   width: 100%;
@@ -33,7 +32,7 @@
 
 .mainHeader {
   height: 10px;
-  background-image: url("./banner1.jpg");
+  background-color: rgb(2, 2, 52);
 }
 
 .left {

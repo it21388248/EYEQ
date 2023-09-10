@@ -17,7 +17,7 @@ const Layout = ({ children }) => {
   };
 
   // redering menu list
-  const SidebarMenu = user?.isAdmin ? adminMenu : userMenu
+  const SidebarMenu = user?.isAdmin ? adminMenu : userMenu;
 
   return (
     <>

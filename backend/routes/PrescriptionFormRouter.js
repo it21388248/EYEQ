@@ -168,23 +168,25 @@ router.route("/delete/:id").delete(async (req, res) => {
 
 // --------- Get data of a particular prescription----------
 router.route("/get/:id").get(async (req, res) => {
-  let prescriptionId = req.params.id;
+  try {
+    const prescriptionId = req.params.id;
+    
+    // Assuming 'Prescription' is a mongoose model
+    const prescription = await Prescription.findById(prescriptionId);
 
-  const prescription = await Prescription.findById(prescriptionId)
-    .then((prescription) => {
-      res
-        .status(200)
-        .send({
-          status: "prescription successfuly fetched",
-          prescription: prescription,
-        });
-    })
-    .catch((err) => {
-      console.log(err.message);
-      res
-        .status(500)
-        .send({ status: "Error with get prescription", error: err.message });
+    if (!prescription) {
+      return res.status(404).send({ status: "Prescription not found" });
+    }
+
+    res.status(200).send({
+      status: "Prescription successfully fetched",
+      prescription: prescription,
     });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send({ status: "Error with get prescription" });
+  }
 });
 
 module.exports = router;
+
