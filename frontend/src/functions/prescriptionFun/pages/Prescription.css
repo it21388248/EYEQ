@@ -28,3 +28,15 @@ input[type="date"]:focus ~ .input-text {
   padding: 6px;
   border-radius: 5px;
 }
+
+#newBtnAdd{
+  position: absolute;
+  right: 400px;
+  top: 322px;
+  background-color: rgb(8, 52, 139);
+  color: white;
+  width: 300px;
+  border: 1px solid rgb(10, 10, 212);
+  padding: 6px;
+  border-radius: 5px;
+}

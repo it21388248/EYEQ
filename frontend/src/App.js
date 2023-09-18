@@ -12,6 +12,7 @@ import Doctors from "./pages/admin/Doctors";
 import Prescription from "./functions/prescriptionFun/pages/Prescription";
 import { Aform } from "./functions/reservationFun/pages/Aform";
 import { Payment } from "./functions/reservationFun/pages/Payment";
+import NewAddForm from "./functions/prescriptionFun/pages/NewAddForm";
 
 function App() {
   const { loading } = useSelector((state) => state.alerts); // Correct useSelector usage
@@ -92,6 +93,16 @@ function App() {
             element={
               <ProtectedRoute>
                 <Prescription />
+              </ProtectedRoute>
+            }
+          />
+
+          {/* Add the new route for /PrescriptionFun/add */}
+          <Route
+            path="/prescription/add"
+            element={
+              <ProtectedRoute>
+                <NewAddForm />
               </ProtectedRoute>
             }
           />

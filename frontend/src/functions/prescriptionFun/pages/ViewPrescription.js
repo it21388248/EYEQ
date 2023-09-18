@@ -27,16 +27,6 @@ const ViewPrescription = ({ isOpen, closeModal, prescriptionData }) => {
         .then((res) => {
           alert("Prescription has deleted sucessfully");
 
-          //get updated list again after deletetion
-          // axios
-          //   .get("http://localhost:8000/prescriptionFun/")
-          //   .then((res) => {
-          //     // setEmployees(res.data);
-          //   })
-          //   .catch((err) => {
-          //     alert(err.message);
-          //   });
-
           // Reload the page to display updated cards
           window.location.reload();
         })

@@ -25,6 +25,12 @@ app.use("/api/v1/user", require("./routes/userRoutes"));
 const prescriptionRouter = require("./routes/PrescriptionFormRouter");
 app.use("/prescriptionFun", prescriptionRouter);
 
+//OCR Controll
+// const ocrRouter = require("./controllers/UploadController");
+// app.use("/prescriptionFun/upload", ocrRouter);
+const ocrRouter = require("./controllers/UploadController");
+app.use("/api/ocr", ocrRouter);
+
 //listen port
 
 const port = process.env.PORT || 8000;

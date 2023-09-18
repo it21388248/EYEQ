@@ -170,7 +170,7 @@ router.route("/delete/:id").delete(async (req, res) => {
 router.route("/get/:id").get(async (req, res) => {
   try {
     const prescriptionId = req.params.id;
-    
+
     // Assuming 'Prescription' is a mongoose model
     const prescription = await Prescription.findById(prescriptionId);
 
@@ -189,4 +189,3 @@ router.route("/get/:id").get(async (req, res) => {
 });
 
 module.exports = router;
-

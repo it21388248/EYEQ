@@ -6,13 +6,75 @@ import Card from "./Card";
 import back2 from "./Add a New Prescription.png";
 import ViewPrescription from "./ViewPrescription";
 import Layout from "../../../components/Layout";
+import Upload from "./Upload";
+import { Link } from "react-router-dom";
 
-export const Prescription = () => {
+const Prescription = () => {
   const [cardData, setCardData] = useState([]);
+  const [extractedData, setExtractedData] = useState({});
+
+  // ---------------- for Add Model ---------------------
+  const [showModal, setShowModal] = useState(false);
+
+  const [formData, setFormData] = useState({
+    fName: "",
+    lName: "",
+    contact: "",
+    birthOfDate: "",
+    doctorName: "",
+    hospitalName: "",
+    presDate: "",
+    expDate: "",
+    leftSpehere: "",
+    rightSpehere: "",
+    leftCylinder: "",
+    rightCylinder: "",
+    leftAxis: "",
+    rightAxis: "",
+    leftAdd: "",
+    rightAdd: "",
+    leftPrism: "",
+    rightPrism: "",
+    pd: "",
+    bvd: "",
+    additionalInfo: "",
+  });
+
+  //fill form with ocr data
+  const fillFormWithData = (data) => {
+    // Get an array of keys
+    const keys = Object.keys(data);
+
+    console.log(data[keys[0]]);
+
+    setFormData((prevData) => ({
+      ...prevData,
+      fName: data[keys[0]],
+      lName: data[keys[1]],
+      contact: data[keys[2]],
+      birthOfDate: data[keys[3]],
+      doctorName: data[keys[4]],
+      hospitalName: data[keys[5]],
+      presDate: data[keys[6]],
+      expDate: data[keys[7]],
+      leftSpehere: data[keys[8]],
+      rightSpehere: data[keys[9]],
+      leftCylinder: data[keys[10]],
+      rightCylinder: data[keys[11]],
+      leftAxis: data[keys[12]],
+      rightAxis: data[keys[13]],
+      leftAdd: data[keys[14]],
+      rightAdd: data[keys[15]],
+      leftPrism: data[keys[16]],
+      rightPrism: data[keys[17]],
+      pd: data[keys[18]],
+      bvd: data[keys[19]],
+    }));
+  };
 
   useEffect(() => {
     const fetchData = async () => {
-      const res = await axios.get("/prescriptionFun/");
+      const res = await axios.get("/prescriptionFun");
       setCardData(res.data);
     };
     fetchData();
@@ -45,59 +107,11 @@ export const Prescription = () => {
     setViewModal(true);
   };
 
-  // ---------------- for Add Model ---------------------
-  const [showModal, setShowModal] = useState(false);
-  const [fName, setfName] = useState("");
-  const [lName, setlName] = useState("");
-  const [contact, setContact] = useState("");
-  const [birthOfDate, setBirthOfDate] = useState("");
-  const [doctorName, setDoctorName] = useState("");
-  const [hospitalName, setHospitalName] = useState("");
-  const [presDate, setPresDate] = useState("");
-  const [expDate, setExpDate] = useState("");
-  const [leftSpehere, setLeftSpehere] = useState("");
-  const [rightSpehere, setRightSpehere] = useState("");
-  const [leftCylinder, setLeftCylinder] = useState("");
-  const [rightCylinder, setRightCylinder] = useState("");
-  const [leftAxis, setLeftAxis] = useState("");
-  const [rightAxis, setRightAxis] = useState("");
-  const [leftAdd, setLeftAdd] = useState("");
-  const [rightAdd, setRightAdd] = useState("");
-  const [leftPrism, setLeftPrism] = useState("");
-  const [rightPrism, setRightPrism] = useState("");
-  const [pd, setPd] = useState("");
-  const [bvd, setBvd] = useState("");
-  const [additionalInfo, setAdditionalInfo] = useState("");
-
   function sendData(e) {
     e.preventDefault();
 
-    const newPrescription = {
-      fName,
-      lName,
-      contact,
-      birthOfDate,
-      doctorName,
-      hospitalName,
-      presDate,
-      expDate,
-      leftSpehere,
-      rightSpehere,
-      leftCylinder,
-      rightCylinder,
-      leftAxis,
-      rightAxis,
-      leftAdd,
-      rightAdd,
-      leftPrism,
-      rightPrism,
-      pd,
-      bvd,
-      additionalInfo,
-    };
-
     axios
-      .post("/prescriptionFun/add", newPrescription)
+      .post("/prescriptionFun/add", formData)
       .then(() => {
         alert("Prescription Added");
 
@@ -108,14 +122,22 @@ export const Prescription = () => {
         alert(err);
       });
   }
+
+  // handle data extraction with ocr
+  const handleDataExtraction = (extractedData) => {
+    fillFormWithData(extractedData);
+    console.log("Called fillFormWithData inner function ");
+
+    // for (const key in extractedData) {
+    //   if (Object.hasOwnProperty.call(extractedData, key)) {
+    //     console.log(`${key}: ${extractedData[key]}`);
+    //   }
+    // }
+  };
+
   return (
     <Layout>
       <Fragment>
-        {/* <script
-        src="https://kit.fontawesome.com/11df75e725.js"
-        crossorigin="anonymous"
-      ></script> */}
-
         <div className="prescription-header">
           <h1 className="heading">Your Prescriptions</h1>
           <button
@@ -127,6 +149,11 @@ export const Prescription = () => {
             Add New Prescription
           </button>
         </div>
+        <Link to={"/prescription/add"}>
+          <button id="newBtnAdd" className="btn-Add ">
+            Add New
+          </button>
+        </Link>
 
         <br />
         <br />
@@ -179,6 +206,8 @@ export const Prescription = () => {
             style={{ maxHeight: "100vh", overflowY: "auto" }}
           >
             <form className="flex flex-col px-6 py-4 lg:px-8 justify-items-center">
+              <Upload onDataExtracted={handleDataExtraction} />
+              {/* Render the Upload component */}
               <div className="patient-info">
                 {/* <i className="text-black fa-solid fa-bars"></i> */}
                 <h2
@@ -205,10 +234,11 @@ export const Prescription = () => {
                       First Name :
                     </span>
                     <input
+                      value={formData.fName}
                       type="text"
                       id="input1"
                       onChange={(e) => {
-                        setfName(e.target.value);
+                        setFormData({ ...formData, fName: e.target.value });
                       }}
                       //placeholder="First Name"
                       className="w-11/12 h-8 px-4 my-0.5 mx-2 text-sm text-black bg-gray-300 bg-opacity-25 border-2 border-gray-400 border-opacity-50 rounded-lg "
@@ -228,9 +258,10 @@ export const Prescription = () => {
                     </span>
                     <input
                       type="text"
+                      value={formData.lName}
                       id="input2"
                       onChange={(e) => {
-                        setlName(e.target.value);
+                        setFormData({ ...formData, lName: e.target.value });
                       }}
                       //placeholder="Last Name"
                       className="w-11/12 h-8 px-4 my-0.5 mx-2 text-sm text-black bg-gray-300 bg-opacity-25 border-2 border-gray-400 border-opacity-50 rounded-lg "
@@ -253,9 +284,10 @@ export const Prescription = () => {
                     </span>
                     <input
                       type="text"
+                      value={formData.contact}
                       id="input3"
                       onChange={(e) => {
-                        setContact(e.target.value);
+                        setFormData({ ...formData, contact: e.target.value });
                       }}
                       className="w-11/12 h-8 px-4 mx-2 my-0.5 text-sm text-black bg-gray-300 bg-opacity-25 border-2 border-gray-400 border-opacity-50 rounded-lg "
                     />
@@ -274,16 +306,19 @@ export const Prescription = () => {
                     </span>
                     <input
                       type="date"
+                      value={formData.birthOfDate}
                       id="input4"
                       onChange={(e) => {
-                        setBirthOfDate(e.target.value);
+                        setFormData({
+                          ...formData,
+                          birthOfDate: e.target.value,
+                        });
                       }}
                       className="w-11/12 h-8 px-4 mx-2 my-0.5 text-sm text-black bg-gray-300 bg-opacity-25 border-2 border-gray-400 border-opacity-50 rounded-lg "
                     />
                   </label>
                 </div>
               </div>
-
               {/* Doctor details */}
               <div className="doctor-info">
                 <h2
@@ -311,9 +346,14 @@ export const Prescription = () => {
                     </span>
                     <input
                       type="text"
+                      value={formData.doctorName}
+                      required
                       id="input5"
                       onChange={(e) => {
-                        setDoctorName(e.target.value);
+                        setFormData({
+                          ...formData,
+                          doctorName: e.target.value,
+                        });
                       }}
                       className="w-11/12 h-8 px-4 mx-2 my-0.5 text-sm text-black bg-gray-300 bg-opacity-25 border-2 border-gray-400 border-opacity-50 rounded-lg "
                     />
@@ -332,16 +372,20 @@ export const Prescription = () => {
                     </span>
                     <input
                       type="text"
+                      value={formData.hospitalName}
                       id="input6"
+                      required
                       onChange={(e) => {
-                        setHospitalName(e.target.value);
+                        setFormData({
+                          ...formData,
+                          hospitalName: e.target.value,
+                        });
                       }}
                       className="w-11/12 h-8 px-4 mx-2 my-0.5 text-sm text-black bg-gray-300 bg-opacity-25 border-2 border-gray-400 border-opacity-50 rounded-lg "
                     />
                   </label>
                 </div>
               </div>
-
               {/* Prescription details */}
               <div className="prescription-info">
                 <h2
@@ -369,9 +413,10 @@ export const Prescription = () => {
                     </span>
                     <input
                       type="date"
+                      value={formData.presDate}
                       id="input7"
                       onChange={(e) => {
-                        setPresDate(e.target.value);
+                        setFormData({ ...formData, presDate: e.target.value });
                       }}
                       className="w-11/12 h-8 px-4 mx-2 my-0.5 text-sm text-black bg-gray-300 bg-opacity-25 border-2 border-gray-400 border-opacity-50 rounded-lg "
                     />
@@ -390,9 +435,10 @@ export const Prescription = () => {
                     </span>
                     <input
                       type="date"
+                      value={formData.expDate}
                       id="input8"
                       onChange={(e) => {
-                        setExpDate(e.target.value);
+                        setFormData({ ...formData, expDate: e.target.value });
                       }}
                       className="w-11/12 h-8 px-4 mx-2 my-0.5 text-sm text-black bg-gray-300 bg-opacity-25 border-2 border-gray-400 border-opacity-50 rounded-lg "
                     />
@@ -440,8 +486,12 @@ export const Prescription = () => {
                     >
                       <input
                         type="number"
+                        value={formData.leftSpehere}
                         onChange={(e) => {
-                          setLeftSpehere(e.target.value);
+                          setFormData({
+                            ...formData,
+                            leftSpehere: e.target.value,
+                          });
                         }}
                         className="w-1/2 text-sm text-center"
                         style={{
@@ -461,8 +511,12 @@ export const Prescription = () => {
                     >
                       <input
                         type="number"
+                        value={formData.rightSpehere}
                         onChange={(e) => {
-                          setRightSpehere(e.target.value);
+                          setFormData({
+                            ...formData,
+                            rightSpehere: e.target.value,
+                          });
                         }}
                         className="w-1/2 text-sm text-center"
                         style={{
@@ -488,8 +542,12 @@ export const Prescription = () => {
                     >
                       <input
                         type="number"
+                        value={formData.leftCylinder}
                         onChange={(e) => {
-                          setLeftCylinder(e.target.value);
+                          setFormData({
+                            ...formData,
+                            leftCylinder: e.target.value,
+                          });
                         }}
                         className="w-1/2 text-sm text-center"
                         style={{
@@ -509,8 +567,12 @@ export const Prescription = () => {
                     >
                       <input
                         type="number"
+                        value={formData.rightSpehere}
                         onChange={(e) => {
-                          setRightCylinder(e.target.value);
+                          setFormData({
+                            ...formData,
+                            rightCylinder: e.target.value,
+                          });
                         }}
                         className="w-1/2 text-sm text-center"
                         style={{
@@ -536,8 +598,12 @@ export const Prescription = () => {
                     >
                       <input
                         type="number"
+                        value={formData.leftAxis}
                         onChange={(e) => {
-                          setLeftAxis(e.target.value);
+                          setFormData({
+                            ...formData,
+                            leftAxis: e.target.value,
+                          });
                         }}
                         className="w-1/2 text-sm text-center"
                         style={{
@@ -557,8 +623,12 @@ export const Prescription = () => {
                     >
                       <input
                         type="number"
+                        value={formData.rightAxis}
                         onChange={(e) => {
-                          setRightAxis(e.target.value);
+                          setFormData({
+                            ...formData,
+                            rightAxis: e.target.value,
+                          });
                         }}
                         className="w-1/2 text-sm text-center"
                         style={{
@@ -584,8 +654,9 @@ export const Prescription = () => {
                     >
                       <input
                         type="number"
+                        value={formData.leftAdd}
                         onChange={(e) => {
-                          setLeftAdd(e.target.value);
+                          setFormData({ ...formData, leftAdd: e.target.value });
                         }}
                         className="w-1/2 text-sm text-center"
                         style={{
@@ -605,8 +676,12 @@ export const Prescription = () => {
                     >
                       <input
                         type="number"
+                        value={formData.rightAdd}
                         onChange={(e) => {
-                          setRightAdd(e.target.value);
+                          setFormData({
+                            ...formData,
+                            rightAdd: e.target.value,
+                          });
                         }}
                         className="w-1/2 text-sm text-center"
                         style={{
@@ -632,8 +707,12 @@ export const Prescription = () => {
                     >
                       <input
                         type="text"
+                        value={formData.leftPrism}
                         onChange={(e) => {
-                          setLeftPrism(e.target.value);
+                          setFormData({
+                            ...formData,
+                            leftPrism: e.target.value,
+                          });
                         }}
                         className="w-1/2 text-sm text-center"
                         style={{
@@ -653,8 +732,12 @@ export const Prescription = () => {
                     >
                       <input
                         type="text"
+                        value={formData.rightPrism}
                         onChange={(e) => {
-                          setRightPrism(e.target.value);
+                          setFormData({
+                            ...formData,
+                            rightPrism: e.target.value,
+                          });
                         }}
                         className="w-1/2 text-sm text-center"
                         style={{
@@ -670,8 +753,9 @@ export const Prescription = () => {
                       PD :
                       <input
                         type="text"
+                        value={formData.pd}
                         onChange={(e) => {
-                          setPd(e.target.value);
+                          setFormData({ ...formData, pd: e.target.value });
                         }}
                         className="w-11/12 h-7 px-4 my-0.5  text-sm text-black bg-gray-200 bg-opacity-25 border-2 border-gray-400 border-opacity-50 rounded-lg "
                       />
@@ -681,8 +765,9 @@ export const Prescription = () => {
                       BVD :
                       <input
                         type="text"
+                        value={formData.bvd}
                         onChange={(e) => {
-                          setBvd(e.target.value);
+                          setFormData({ ...formData, bvd: e.target.value });
                         }}
                         className="w-11/12 h-7 px-4 my-0.5  text-sm text-black bg-gray-200 bg-opacity-25 border-2 border-gray-400 border-opacity-50 rounded-lg "
                       />
@@ -695,8 +780,12 @@ export const Prescription = () => {
                   </h3>
                   <textarea
                     className="h-8 h-20 bg-gray-100 border-2 border-gray"
+                    value={formData.additionalInfo}
                     onChange={(e) => {
-                      setAdditionalInfo(e.target.value);
+                      setFormData({
+                        ...formData,
+                        additionalInfo: e.target.value,
+                      });
                     }}
                   />
                 </div>

@@ -18,7 +18,6 @@ const prescriptionSchema = new Schema({
   },
   doctorName: {
     type: String,
-    required: true,
   },
   hospitalName: {
     type: String,
